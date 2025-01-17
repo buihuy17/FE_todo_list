@@ -1,19 +1,12 @@
-import React, { useState } from 'react';
-import Login from './components/Login';
-import ProtectedRoute from './components/ProtectedRoute';
+import React from 'react';
+import AuthApp from './AuthApp';
 
 const App = () => {
-  const [token, setToken] = useState('');
-
   return (
     <div>
-      {!token ? (
-        <Login setToken={setToken} />
-      ) : (
-        <ProtectedRoute token={token} />
-      )}
+      <AuthApp />
     </div>
   );
 };
 
-export default App;
+export default App; 
