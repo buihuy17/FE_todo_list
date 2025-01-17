@@ -1,13 +1,10 @@
-/* .welcome-container {
+.welcome-container {
     background-color: #f7f7f7;
     padding: 30px;
     border-radius: 10px;
     max-width: 800px;
-    width: 100%;
     margin: 0 auto;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    box-sizing: border-box;
-    overflow: hidden;
 }
 
 .welcome-title {
@@ -46,7 +43,6 @@
     justify-content: space-between;
     align-items: center;
     transition: all 0.3s ease;
-    word-wrap: break-word;
 }
 
 .todo-item:hover {
@@ -84,8 +80,6 @@ form {
     display: flex;
     justify-content: space-between;
     margin-bottom: 20px;
-    width: 100%;
-    box-sizing: border-box;
 }
 
 input[type="text"] {
@@ -94,7 +88,6 @@ input[type="text"] {
     font-size: 16px;
     border: 1px solid #ddd;
     border-radius: 5px;
-    box-sizing: border-box;
 }
 
 button[type="submit"] {
@@ -128,53 +121,67 @@ button.active {
     background-color: #0056b3;
 }
 
-@media (max-width: 768px) {
-    .welcome-container {
-        padding: 20px;
-        width: 90%;
-    }
-
-    .welcome-title {
-        font-size: 20px;
-    }
-
-    .todo-item {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .todo-title {
-        font-size: 16px;
-    }
-
-    input[type="text"] {
-        width: 70%;
-    }
-
-    button[type="submit"] {
-        padding: 8px 15px;
-    }
+/* Style cho phần Todo Filter */
+.todo-filter {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
 }
 
-@media (max-width: 480px) {
-    .welcome-container {
-        padding: 15px;
-    }
+.todo-filter button {
+    margin: 0 10px;
+}
 
-    .welcome-title {
-        font-size: 18px;
-    }
+/* Style cho tiêu đề và các phần tử trong phần Todo Form */
+.todo-form-container {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    margin: 20px auto;
+}
 
-    .todo-item {
-        flex-direction: column;
-        align-items: flex-start;
-    }
+.todo-form-container h3 {
+    text-align: center;
+    font-size: 1.5rem;
+    color: #333;
+}
 
-    input[type="text"] {
-        width: 60%;
-    }
+.todo-form-container label {
+    font-size: 1rem;
+    color: #555;
+    display: block;
+    margin-bottom: 5px;
+}
 
-    button[type="submit"] {
-        padding: 8px 10px;
-    }
-} */
+.todo-form-container input[type="text"],
+.todo-form-container input[type="checkbox"] {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 15px;
+}
+
+.todo-form-container input[type="checkbox"] {
+    width: auto;
+}
+
+.todo-form-container button {
+    background-color: #4caf50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+    font-size: 1rem;
+    transition: background-color 0.3s;
+}
+
+.todo-form-container button:hover {
+    background-color: #45a049;
+}

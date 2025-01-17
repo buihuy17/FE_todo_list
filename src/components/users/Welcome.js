@@ -1,65 +1,113 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import TodoList from '../todos/TodoList';
 import TodoForm from '../todos/TodoForm';
 import TodoFilter from '../todos/TodoFilter';
 import './welcome.css';
 
 const Welcome = ({ onLogout }) => {
-  const [todos, setTodos] = useState([]);
-  const [filter, setFilter] = useState('all');  // all, completed, incomplete
+    const [todos, setTodos] = useState([]);
+    const [filter, setFilter] = useState('all');  // all, completed, incomplete
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
-  useEffect(() => {
-    const fetchTodos = async () => {
-      const fetchedTodos = [
-        { id: 1, title: 'Complete homework', completed: false },
-        { id: 2, title: 'Buy groceries', completed: true },
-        { id: 3, title: 'Call mom', completed: false },
-      ];
-      setTodos(fetchedTodos);
+    const getAuthToken = () => {
+        return localStorage.getItem('authToken');
     };
 
-    fetchTodos();
-  }, []);
+    useEffect(() => {
+        const fetchTodos = async () => {
+            const token = getAuthToken();
+            if (!token) {
+                alert('Please log in first');
+                return;
+            }
 
-  const handleAddTodo = (newTodo) => {
-    setTodos([...todos, { id: todos.length + 1, ...newTodo }]);
-  };
+            try {
+                const response = await axios.get('http://localhost:3001/todos', {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+                setTodos(response.data);
+            } catch (error) {
+                console.error('Error fetching todos:', error);
+            }
+        };
 
-  const handleDelete = (id) => {
-    setTodos(todos.filter(todo => todo.id !== id));
-  };
+        fetchTodos();
+    }, []);
 
-  const handleToggleComplete = (id) => {
-    setTodos(todos.map(todo => 
-      todo.id === id ? { ...todo, completed: !todo.completed } : todo
-    ));
-  };
+    const handleAddTodo = async (newTodo) => {
+        const token = getAuthToken();
+        if (!token) {
+            alert('Please log in first');
+            return;
+        }
 
-  const handleFilterChange = (status) => {
-    setFilter(status);
-  };
+        try {
+            const response = await axios.post('http://localhost:3001/todos', newTodo, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+            setTodos([...todos, response.data]);
+            setIsModalOpen(false);
+        } catch (error) {
+            console.error('Error adding todo:', error);
+        }
+    };
 
-  const filteredTodos = todos.filter(todo => {
-    if (filter === 'all') return true;
-    if (filter === 'completed') return todo.completed;
-    if (filter === 'incomplete') return !todo.completed;
-    return true;
-  });
+    const handleUpdate = (id) => {
+        const todoToUpdate = todos.find(todo => todo.id === id);
+        if (todoToUpdate) {
+            console.log('Edit Todo:', todoToUpdate);
+        }
+    };
 
-  return (
-    <div className="welcome-container">
-      <h2 className="welcome-title">Welcome, you are logged in!</h2>
-      <button className="logout-button" onClick={onLogout}>Logout</button>
 
-      <TodoFilter onFilterChange={handleFilterChange} />
-      <TodoForm onAddTodo={handleAddTodo} />
-      <TodoList
-        todos={filteredTodos}
-        onDelete={handleDelete}
-        onToggleComplete={handleToggleComplete}
-      />
-    </div>
-  );
+    const handleDelete = (id) => {
+        setTodos(todos.filter(todo => todo.id !== id));
+    };
+
+    const handleToggleComplete = (id) => {
+        setTodos(todos.map(todo =>
+            todo.id === id ? { ...todo, completed: !todo.completed } : todo
+        ));
+    };
+
+    const handleFilterChange = (status) => {
+        setFilter(status);
+    };
+
+    const filteredTodos = todos.filter(todo => {
+        if (filter === 'all') return true;
+        if (filter === 'completed') return todo.completed;
+        if (filter === 'incomplete') return !todo.completed;
+        return true;
+    });
+
+    return (
+        <div className="welcome-container">
+            <h2 className="welcome-title">Welcome, you are logged in!</h2>
+            <button className="logout-button" onClick={onLogout}>Logout</button>
+
+            <TodoFilter onFilterChange={handleFilterChange} />
+
+            <button onClick={() => setIsModalOpen(true)}>Add Todo</button>
+            {isModalOpen && (
+                <div className="modal">
+                    <TodoForm onAddTodo={handleAddTodo} onClose={() => setIsModalOpen(false)} />
+                </div>
+            )}
+
+            <TodoList
+                todos={filteredTodos}
+                onDelete={handleDelete}
+                onToggleComplete={handleToggleComplete}
+                onUpdate={handleUpdate}
+            />
+        </div>
+    );
 };
 
 export default Welcome;

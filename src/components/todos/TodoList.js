@@ -1,20 +1,26 @@
 import React from 'react';
-import TodoItem from './TodoItem';
 
-const TodoList = ({ todos, onDelete, onToggleComplete }) => {
+const TodoList = ({ todos, onDelete, onToggleComplete, onUpdate }) => {
   return (
     <div>
-      <h3>Your Todo List:</h3>
-      <ul>
-        {todos.map(todo => (
-          <TodoItem
-            key={todo.id}
-            todo={todo}
-            onDelete={onDelete}
-            onToggleComplete={onToggleComplete}
-          />
-        ))}
-      </ul>
+      {todos.map(todo => (
+        <div key={todo.id} className={`todo-item ${todo.completed ? 'completed' : ''}`}>
+          <div className="todo-content">
+            <span className="todo-title" onClick={() => onToggleComplete(todo.id)}>
+              {todo.title}
+            </span>
+          </div>
+
+          <div className="todo-actions">
+            <button className="update-button" onClick={() => onUpdate(todo.id)}>
+              Update
+            </button>
+            <button className="delete-button" onClick={() => onDelete(todo.id)}>
+              Delete
+            </button>
+          </div>
+        </div>
+      ))}
     </div>
   );
 };
