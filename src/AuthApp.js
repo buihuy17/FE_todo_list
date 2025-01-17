@@ -49,6 +49,7 @@ const AuthApp = () => {
             const response = await axios.post('http://localhost:3001/users/login', { username, password });
             if (response.status === 200) {
                 alert('Login successful!');
+                localStorage.setItem('authToken', response.data.token);
                 setIsLoggedIn(true);
                 setFormData({ username: '', password: '', confirmPassword: '' });
                 navigate('/todos');

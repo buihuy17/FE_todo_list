@@ -1,22 +1,24 @@
-/* Container chính */
-.welcome-container {
+/* .welcome-container {
     background-color: #f7f7f7;
     padding: 30px;
     border-radius: 10px;
     max-width: 800px;
+    width: 100%;
     margin: 0 auto;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  .welcome-title {
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.welcome-title {
     font-size: 24px;
     font-weight: bold;
     color: #333;
     margin-bottom: 20px;
     text-align: center;
-  }
-  
-  .logout-button {
+}
+
+.logout-button {
     display: block;
     width: 100%;
     padding: 10px;
@@ -27,14 +29,14 @@
     font-size: 16px;
     cursor: pointer;
     margin-bottom: 30px;
-  }
-  
-  .logout-button:hover {
+    transition: background-color 0.3s;
+}
+
+.logout-button:hover {
     background-color: #e85d50;
-  }
-  
-  /* Todo List */
-  .todo-item {
+}
+
+.todo-item {
     background-color: #fff;
     padding: 15px;
     margin: 10px 0;
@@ -44,26 +46,27 @@
     justify-content: space-between;
     align-items: center;
     transition: all 0.3s ease;
-  }
-  
-  .todo-item:hover {
+    word-wrap: break-word;
+}
+
+.todo-item:hover {
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  }
-  
-  .todo-item.completed {
+}
+
+.todo-item.completed {
     background-color: #d3ffd3;
     text-decoration: line-through;
-  }
-  
-  .todo-title {
+}
+
+.todo-title {
     font-size: 18px;
     color: #333;
     cursor: pointer;
     flex: 1;
-  }
-  
-  .delete-button {
+}
+
+.delete-button {
     background-color: #ff4d4d;
     color: white;
     border: none;
@@ -71,42 +74,43 @@
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s;
-  }
-  
-  .delete-button:hover {
+}
+
+.delete-button:hover {
     background-color: #ff1a1a;
-  }
-  
-  /* Form thêm Todo */
-  form {
+}
+
+form {
     display: flex;
     justify-content: space-between;
     margin-bottom: 20px;
-  }
-  
-  input[type="text"] {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+input[type="text"] {
     width: 80%;
     padding: 10px;
     font-size: 16px;
     border: 1px solid #ddd;
     border-radius: 5px;
-  }
-  
-  button[type="submit"] {
+    box-sizing: border-box;
+}
+
+button[type="submit"] {
     background-color: #4caf50;
     color: white;
     border: none;
     padding: 10px 20px;
     border-radius: 5px;
     cursor: pointer;
-  }
-  
-  button[type="submit"]:hover {
+}
+
+button[type="submit"]:hover {
     background-color: #45a049;
-  }
-  
-  /* Filter buttons */
-  button {
+}
+
+button {
     padding: 8px 15px;
     background-color: #007bff;
     color: white;
@@ -114,13 +118,63 @@
     border-radius: 5px;
     margin: 5px;
     cursor: pointer;
-  }
-  
-  button:hover {
+}
+
+button:hover {
     background-color: #0056b3;
-  }
-  
-  button.active {
+}
+
+button.active {
     background-color: #0056b3;
-  }
-  
+}
+
+@media (max-width: 768px) {
+    .welcome-container {
+        padding: 20px;
+        width: 90%;
+    }
+
+    .welcome-title {
+        font-size: 20px;
+    }
+
+    .todo-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .todo-title {
+        font-size: 16px;
+    }
+
+    input[type="text"] {
+        width: 70%;
+    }
+
+    button[type="submit"] {
+        padding: 8px 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .welcome-container {
+        padding: 15px;
+    }
+
+    .welcome-title {
+        font-size: 18px;
+    }
+
+    .todo-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    input[type="text"] {
+        width: 60%;
+    }
+
+    button[type="submit"] {
+        padding: 8px 10px;
+    }
+} */
