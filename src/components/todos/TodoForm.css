@@ -5,49 +5,65 @@
     border-radius: 8px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     width: 80%;
-    max-width: 200px;
+    max-width: 400px;
     margin: 20px auto;
-}
-
-.todo-form-container h3 {
+  }
+  
+  .todo-form-container h3 {
     text-align: center;
     font-size: 1.5rem;
     color: #333;
-}
-
-.todo-form-container label {
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  .form-group label {
     font-size: 1rem;
     color: #555;
     display: block;
     margin-bottom: 5px;
-}
-
-.todo-form-container input[type="text"],
-.todo-form-container input[type="checkbox"] {
+  }
+  
+  .form-input {
     width: 100%;
     padding: 10px;
     font-size: 1rem;
     border: 1px solid #ddd;
     border-radius: 5px;
-    margin-bottom: 15px;
-}
-
-.todo-form-container input[type="checkbox"] {
+  }
+  
+  .form-checkbox {
     width: auto;
-}
-
-.todo-form-container button {
+  }
+  
+  .form-actions {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .btn-save, .btn-close {
     background-color: #4caf50;
     color: white;
     padding: 10px 20px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    width: 100%;
+    width: 48%;
     font-size: 1rem;
     transition: background-color 0.3s;
-}
-
-.todo-form-container button:hover {
+  }
+  
+  .btn-save:hover {
     background-color: #45a049;
-}
+  }
+  
+  .btn-close {
+    background-color: #f44336;
+  }
+  
+  .btn-close:hover {
+    background-color: #e53935;
+  }
+  

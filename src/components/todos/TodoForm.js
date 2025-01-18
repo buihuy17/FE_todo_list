@@ -1,46 +1,55 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
-const TodoForm = ({ onAddTodo, onClose }) => {
-  const [title, setTitle] = useState('');
-  const [completed, setCompleted] = useState(false); // Trạng thái mặc định là false
+const TodoForm = ({ todo, onAddTodo, onSave, onClose }) => {
+  const [formData, setFormData] = useState({ title: '', completed: false });
+
+  useEffect(() => {
+    if (todo) {
+      setFormData({ title: todo.title, completed: todo.completed });
+    }
+  }, [todo]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!title) {
-      alert('Please enter a title');
-      return;
+    if (todo) {
+      onSave(formData);
+    } else {
+      onAddTodo(formData);
     }
+  };
 
-    const newTodo = { title, completed };
-    onAddTodo(newTodo);  // Gửi todo mới lên component cha
-
-    setTitle('');
-    setCompleted(false);
-    onClose();  // Đóng modal sau khi thêm todo thành công
+  const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    setFormData({
+      ...formData,
+      [name]: type === 'checkbox' ? checked : value,
+    });
   };
 
   return (
     <form onSubmit={handleSubmit}>
-      <div>
-        <label>Title:</label>
+      <label>
+        Title
         <input
           type="text"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
+          name="title"
+          value={formData.title}
+          onChange={handleChange}
+          placeholder="Enter task"
           required
         />
-      </div>
-
-      <div>
-        <label>Completed:</label>
+      </label>
+      <label>
         <input
           type="checkbox"
-          checked={completed}
-          onChange={() => setCompleted(!completed)}
+          name="completed"
+          checked={formData.completed}
+          onChange={handleChange}
         />
-      </div>
-
-      <button type="submit">Add Todo</button>
+        Completed
+      </label>
+      <button type="submit">{todo ? 'Save' : 'Add'}</button>
+      <button type="button" onClick={onClose}>Close</button>
     </form>
   );
 };

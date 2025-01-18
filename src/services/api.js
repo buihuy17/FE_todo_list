@@ -12,10 +12,55 @@ export const addTodo = async (title) => {
 };
 
 export const updateTodo = async (id, updatedData) => {
-    const response = await axios.put(`${API_URL}/${id}`, updatedData);
-    return response.data;
+    console.log('Updating todo with ID:', id);
+    console.log('Updated data:', updatedData);
+
+    const token = localStorage.getItem('authToken');
+    if (!token) {
+        console.error('No token found. Please log in again.');
+        throw new Error('No token found');
+    }
+    try {
+        const response = await axios.put(`${API_URL}/${id}`, updatedData, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+
+        console.log('Updated Todo:', response.data);
+        return response.data;
+    } catch (error) {
+        if (error.response) {
+            console.error('Error response from server:', error.response.data);
+            throw new Error(error.response.data || 'Error updating todo');
+        } else if (error.request) {
+            console.error('No response from server:', error.request);
+            throw new Error('No response from server');
+        } else {
+            console.error('Error setting up request:', error.message);
+            throw new Error('Error setting up request');
+        }
+    }
 };
 
 export const deleteTodo = async (id) => {
-    await axios.delete(`${API_URL}/${id}`);
+    try {
+        const token = localStorage.getItem('authToken'); 
+        if (!token) {
+            throw new Error('No authentication token found');
+        }
+
+        console.log('Deleting Todo with ID:', id);
+
+        const response = await axios.delete(`${API_URL}/${id}`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+
+        return response.data;
+    } catch (error) {
+        console.error('Error deleting todo:', error);
+        throw error;
+    }
 };

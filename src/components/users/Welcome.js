@@ -4,11 +4,14 @@ import TodoList from '../todos/TodoList';
 import TodoForm from '../todos/TodoForm';
 import TodoFilter from '../todos/TodoFilter';
 import './welcome.css';
+import { updateTodo, deleteTodo } from '../../services/api';
 
 const Welcome = ({ onLogout }) => {
     const [todos, setTodos] = useState([]);
     const [filter, setFilter] = useState('all');  // all, completed, incomplete
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [editModalOpen, setEditModalOpen] = useState(false);
+    const [selectedTodo, setSelectedTodo] = useState(null);
 
     const getAuthToken = () => {
         return localStorage.getItem('authToken');
@@ -57,16 +60,43 @@ const Welcome = ({ onLogout }) => {
         }
     };
 
-    const handleUpdate = (id) => {
-        const todoToUpdate = todos.find(todo => todo.id === id);
-        if (todoToUpdate) {
-            console.log('Edit Todo:', todoToUpdate);
+    const handleUpdate = (_id) => {
+        const todoToEdit = todos.find(todo => todo._id === _id);
+        if (todoToEdit) {
+            setSelectedTodo(todoToEdit);
+            setEditModalOpen(true);
         }
     };
 
 
-    const handleDelete = (id) => {
-        setTodos(todos.filter(todo => todo.id !== id));
+    const handleSaveEdit = async (updatedData) => {
+        if (!selectedTodo) return;
+
+        try {
+            const updatedTodo = await updateTodo(selectedTodo._id, updatedData);
+            console.log('Updated Todo:', updatedTodo);
+            setTodos(prevTodos =>
+                prevTodos.map(todo =>
+                    todo._id === selectedTodo._id ? updatedTodo : todo
+                )
+            );
+            setEditModalOpen(false);
+            setSelectedTodo(null);
+        } catch (error) {
+            console.error('Error updating todo:', error);
+        }
+    };
+
+
+    const handleDelete = async (id) => {
+        try {
+            const deletedTodo = await deleteTodo(id);
+            console.log('Deleted Todo:', deletedTodo);
+    
+            setTodos(todos.filter(todo => todo._id !== id));
+        } catch (error) {
+            console.error('Error deleting todo:', error);
+        }
     };
 
     const handleToggleComplete = (id) => {
@@ -100,12 +130,26 @@ const Welcome = ({ onLogout }) => {
                 </div>
             )}
 
+            {editModalOpen && selectedTodo && (
+                <div className="modal">
+                    <TodoForm
+                        todo={selectedTodo}
+                        onSave={handleSaveEdit}
+                        onClose={() => {
+                            setEditModalOpen(false);
+                            setSelectedTodo(null);
+                        }}
+                    />
+                </div>
+            )}
+
             <TodoList
                 todos={filteredTodos}
                 onDelete={handleDelete}
                 onToggleComplete={handleToggleComplete}
                 onUpdate={handleUpdate}
             />
+
         </div>
     );
 };
